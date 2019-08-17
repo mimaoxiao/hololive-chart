@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="echart.js"></script>
+    <script type="text/javascript">
+        function BChart(namelist,datalist){
+            var BChart = echarts.init(document.getElementById('B'));
+            // 指定图表的配置项和数据
+            var option =
+            {
+                title:{
+                    text:'                               hololive B站订阅数一览 2019.8.11Ver',
+                    show:true,
+                    top:15,
+                    textStyle:{
+                        color:'#f1f1f1',
+                        fontSize:25,
+                    }
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    backgroundColor: 'rgba(255,255,255,0.8)',
+                    textStyle: {
+                        color: '#6a717b',
+                    },
+
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                yAxis: [{
+                    type: 'category',
+                    data: namelist,
+                    axisTick: {
+                        alignWithLabel: true,
+                    },
+                    axisLabel: {
+                        margin: 10,
+                        textStyle: {
+                            fontSize: 12,
+                            color: '#9f9f9f'
+                        }
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#2548ac'
+                        }
+                    },
+                }],
+                xAxis: [{
+                    type: 'value',
+                    axisLabel: {
+                        margin: 10,
+                        textStyle: {
+                            fontSize: 12,
+                            color: '#9f9f9f'
+                        }
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#192469'
+                        }
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: '#17367c'
+                        }
+                    }
+                }],
+                legend:{
+                    data:['bilibili订阅数'],
+                    bottom:0,
+                    textStyle:{
+                        color:'#9f9f9f'
+                    }
+                },
+                backgroundColor:
+                new echarts.graphic.RadialGradient(0.5, 0.5, 0.5,  [{
+                    offset: 0, color: '#585858' // 0% 处的颜色
+                    }, {
+                    offset: 1, color: '#282828' // 100% 处的颜色
+                    }], false),
+                series: [{
+                    name: 'bilibili订阅数',
+                    type: 'bar',
+                    barCategoryGap: '40%',
+                    data:datalist,
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'right',
+                            textStyle: {
+                                color: 'white' //color of value
+                            }
+                        }
+                    },
+                    itemStyle: {
+
+                        normal: {
+                            color: '#3567bc',
+                            shadowColor: 'rgba(0,0,0,0.1)',
+                            shadowBlur: 3,
+                            shadowOffsetY: 3
+                        }
+                    }
+                }]
+            };
+            BChart.setOption(option); 
+        };
+        window.onload=function()
+        {
+            var number=23;
+            var BnameList=[];
+            var bidList=[];
+            var Bsubscriber=[];
+            for(var i=0;i<number;i++)
+            {
+                Bsubscriber.push(0);
+            }
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() 
+            {
+                if (this.readyState == 4 && this.status == 200) 
+                {
+                    var inip=JSON.parse(this.responseText);
+                    var sp=inip.data;
+                    for(var i=0;i<number;i++)
+                    {
+                        BnameList.push(sp[i].name);
+                        bidList.push(sp[i].bid);    
+                    }
+                    Bapi(BnameList,bidList,Bsubscriber);
+                }
+            }
+
+            xhttp.open("GET", "id.json", true);
+            xhttp.send();
+        }
+        function Bapi(nameList,bidList,subscriber){
+            var number=23;
+            for(var i=0;i<number;i++)
+            {
+                Bsend(nameList,nameList[i],bidList[i],subscriber);
+            }
+        }
+        function Bsend(nameList,name,id,subscriber){
+            var number=23;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() 
+            {
+                if (this.readyState == 4 && this.status == 200) 
+                {
+                    var inip=JSON.parse(this.responseText);
+                    for(var q=0;q<number;q++)
+                    {
+                        if(nameList[q]==name)
+                        {
+                            //subscriber[q]=Number(inip.items[0].statistics.subscriberCount);
+                            subscriber[q]=inip.data.card.fans;
+                        }
+                    }
+                    Bsort(nameList,subscriber); 
+                }
+            }
+            var url="https://api.kaaass.net/biliapi/user/space?id="+id;
+            xhttp.open("GET", url, true);
+            xhttp.send();
+        }
+        function Bsort(nameList,subscriber){
+            var number=23;
+            for(var i=number-1;i>=0;i--)
+            {
+                var max=subscriber[i];
+                var pos=i;
+                var name=nameList[i];
+                for(var j=0;j<i;j++)
+                {
+                    if(max>subscriber[j])
+                    {
+                        max=subscriber[j];
+                        name=nameList[j];
+                        pos=j;
+                    }
+                }
+                var tname=nameList[i];
+                var tvalue=subscriber[i];
+                subscriber[i]=max;
+                nameList[i]=name;
+                subscriber[pos]=tvalue;
+                nameList[pos]=tname;
+            }
+            BChart(nameList,subscriber);
+        }
+</script>
+</head>
+<body>
+    <div id="B" style="width:924px;height:693px;"></div>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="echart.js"></script>
+    <script type="text/javascript">
+            function YChart(namelist,datalist){
+            var YChart = echarts.init(document.getElementById('Y'));
+            // 指定图表的配置项和数据
+            var option =
+            {
+                title:{
+                    text:'                              hololive Youtube订阅数一览 2019.8.11Ver',
+                    show:true,
+                    top:15,
+                    textStyle:{
+                        color:'#f1f1f1',
+                        fontSize:25,
+                    }
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    backgroundColor: 'rgba(255,255,255,0.8)',
+                    textStyle: {
+                        color: '#6a717b',
+                    },
+
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                yAxis: [{
+                    type: 'category',
+                    data: namelist,//['OPPO R9s','OPPO R9s','OPPO R9s','OPPO R9s', 'OPPO A57', 'OPPO A59s', 'OPPO R9m', 'OPPO A37m', 'vivo X9', 'OPPO A33', 'OPPO R11', 'OPPO A59m', 'vivo X7','OPPO R9s', 'OPPO A57', 'OPPO A59s', 'OPPO R9m', 'OPPO A37m', 'vivo X9', 'OPPO A33', 'OPPO R11', 'OPPO A59m', 'vivo X7'],
+                    inverse: true,
+                    axisTick: {
+                        alignWithLabel: true,
+                    },
+                    axisLabel: {
+                        margin: 10,
+                        textStyle: {
+                            fontSize: 12,
+                            color: '#9f9f9f'
+                        }
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#2548ac'
+                        }
+                    },
+                }],
+                xAxis: [{
+                    type: 'value',
+                    axisLabel: {
+                        margin: 10,
+                        textStyle: {
+                            fontSize: 12,
+                            color: '#9f9f9f'
+                        }
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#192469'
+                        }
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: '#17367c'
+                        }
+                    }
+                }],
+                legend:{
+                    data:['Youtube订阅数'],
+                    bottom:0,
+                    textStyle:{
+                        color:'#9f9f9f'
+                    }
+                },
+                backgroundColor:
+                new echarts.graphic.RadialGradient(0.5, 0.5, 0.5,  [{
+                    offset: 0, color: '#585858' // 0% 处的颜色
+                    }, {
+                    offset: 1, color: '#282828' // 100% 处的颜色
+                    }], false),
+                series: [{
+                    name: 'Youtube订阅数',
+                    type: 'bar',
+                    barCategoryGap: '40%',
+                    data:datalist,// [88278,88278,88278,88276, 74772, 74391, 37253, 62192, 52842, 48226, 35701, 38562, 38609,88896, 74072, 74391, 37253, 63822, 52642, 47026, 39301, 38762, 38309],
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideRight',
+                            textStyle: {
+                                color: 'white' //color of value
+                            }
+                        }
+                    },
+                    itemStyle: {
+
+                        normal: {
+                            color: '#3567bc',
+                            shadowColor: 'rgba(0,0,0,0.1)',
+                            shadowBlur: 3,
+                            shadowOffsetY: 3
+                        }
+                    }
+                }]
+            };
+            YChart.setOption(option); 
+        };
+        window.onload=function()
+        {
+            var number=23;
+            var YnameList=[];
+            var yidList=[];
+            var Ysubscriber=[];
+            for(var i=0;i<number;i++)
+            {
+                Ysubscriber.push(0);
+            }
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() 
+            {
+                if (this.readyState == 4 && this.status == 200) 
+                {
+                    var inip=JSON.parse(this.responseText);
+                    var sp=inip.data;
+                    for(var i=0;i<number;i++)
+                    {
+                        YnameList.push(sp[i].name);
+                        yidList.push(sp[i].yid);     
+                    }
+                    Yapi(YnameList,yidList,Ysubscriber);
+                }
+            }
+
+            xhttp.open("GET", "id.json", true);
+            xhttp.send();
+        }
+        function Yapi(nameList,bidList,subscriber){
+            var number=23;
+            for(var i=0;i<number;i++)
+            {
+                Ysend(nameList,nameList[i],bidList[i],subscriber);
+            }
+        }
+        function Ysend(nameList,name,id,subscriber){
+            var number=23;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() 
+            {
+                if (this.readyState == 4 && this.status == 200) 
+                {
+                    var inip=JSON.parse(this.responseText);
+                    for(var q=0;q<number;q++)
+                    {
+                        if(nameList[q]==name)
+                        {
+                            subscriber[q]=Number(inip.items[0].statistics.subscriberCount);
+                        }
+                    }
+                    Ysort(nameList,subscriber); 
+                }
+            }
+            var url="https://www.googleapis.com/youtube/v3/channels?part=statistics&key=AIzaSyAExvmbV78buQwbUqNgYVUGcywNy0OpciE&id="+id;
+            xhttp.open("GET", url, true);
+            xhttp.send();
+        }
+        function Ysort(nameList,subscriber){
+            var number=23;
+            for(var i=number-1;i>=0;i--)
+            {
+                var max=subscriber[i];
+                var pos=i;
+                var name=nameList[i];
+                for(var j=0;j<i;j++)
+                {
+                    if(max<subscriber[j])
+                    {
+                        max=subscriber[j];
+                        name=nameList[j];
+                        pos=j;
+                    }
+                }
+                var tname=nameList[i];
+                var tvalue=subscriber[i];
+                subscriber[i]=max;
+                nameList[i]=name;
+                subscriber[pos]=tvalue;
+                nameList[pos]=tname;
+            }
+            YChart(nameList,subscriber);
+        }
+</script>
+</head>
+<body>
+    <div id="Y" style="width:924px;height:693px;"></div>
+</body>
+</html>
