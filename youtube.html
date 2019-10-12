@@ -6,13 +6,14 @@
     <!-- 引入 echarts.js -->
     <script src="echart.js"></script>
     <script type="text/javascript">
+            var number=23;
             function YChart(namelist,datalist){
             var YChart = echarts.init(document.getElementById('Y'));
             // 指定图表的配置项和数据
             var option =
             {
                 title:{
-                    text:'                              hololive Youtube订阅数一览 2019.8.11Ver',
+                    text:'                              hololive 油管订阅数一览 2019.10.6Ver',
                     show:true,
                     top:15,
                     textStyle:{
@@ -116,7 +117,6 @@
         };
         window.onload=function()
         {
-            var number=23;
             var YnameList=[];
             var yidList=[];
             var Ysubscriber=[];
@@ -140,18 +140,16 @@
                 }
             }
 
-            xhttp.open("GET", "id.json", true);
+            xhttp.open("GET", "yid.json", true);
             xhttp.send();
         }
         function Yapi(nameList,bidList,subscriber){
-            var number=23;
             for(var i=0;i<number;i++)
             {
                 Ysend(nameList,nameList[i],bidList[i],subscriber);
             }
         }
         function Ysend(nameList,name,id,subscriber){
-            var number=23;
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() 
             {
@@ -173,7 +171,6 @@
             xhttp.send();
         }
         function Ysort(nameList,subscriber){
-            var number=23;
             for(var i=number-1;i>=0;i--)
             {
                 var max=subscriber[i];
