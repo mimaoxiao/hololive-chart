@@ -6,14 +6,14 @@
     <!-- 引入 echarts.js -->
     <script src="echart.js"></script>
     <script type="text/javascript">
-            var number=23;
+            var number=28;
             function YChart(namelist,datalist){
             var YChart = echarts.init(document.getElementById('Y'));
             // 指定图表的配置项和数据
             var option =
             {
                 title:{
-                    text:'                              hololive 油管订阅数一览 2020.1.5Ver',
+                    text:'                              hololive 油管订阅数一览 2020.4.12Ver',
                     show:true,
                     top:15,
                     textStyle:{
@@ -37,7 +37,7 @@
                 },
                 yAxis: [{
                     type: 'category',
-                    data: namelist,//['OPPO R9s','OPPO R9s','OPPO R9s','OPPO R9s', 'OPPO A57', 'OPPO A59s', 'OPPO R9m', 'OPPO A37m', 'vivo X9', 'OPPO A33', 'OPPO R11', 'OPPO A59m', 'vivo X7','OPPO R9s', 'OPPO A57', 'OPPO A59s', 'OPPO R9m', 'OPPO A37m', 'vivo X9', 'OPPO A33', 'OPPO R11', 'OPPO A59m', 'vivo X7'],
+                    data: namelist,
                     inverse: true,
                     axisTick: {
                         alignWithLabel: true,

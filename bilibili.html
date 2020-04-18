@@ -6,14 +6,14 @@
     <!-- 引入 echarts.js -->
     <script src="echart.js"></script>
     <script type="text/javascript">
-        var number=26;
+        var number=34;
         function BChart(namelist,datalist){
             var BChart = echarts.init(document.getElementById('B'));
             // 指定图表的配置项和数据
             var option =
             {
                 title:{
-                    text:'                                                      hololive B站粉丝数一览 2020.1.5Ver',
+                    text:'                                                      hololive B站粉丝数一览 2020.4.12Ver',
                     show:true,
                     top:15,
                     textStyle:{
@@ -119,6 +119,7 @@
             var BnameList=[];
             var bidList=[];
             var Bsubscriber=[];
+            //var Bsubscriber=[278532,161767,218523,136472,125406,445547,586811,675937,233450,314741,238704,151611,269848,192862,219705,60426,259593,119730,197796,172636,308116,259655,1002475,74795,128695,135508,224937,163860,146766,101379,103687,78816,78193,64285];
             for(var i=0;i<number;i++)
             {
                 Bsubscriber.push(0);
@@ -135,6 +136,7 @@
                         BnameList.push(sp[i].name);
                         bidList.push(sp[i].bid);    
                     }
+                    //Bsort(BnameList,Bsubscriber);
                     Bapi(BnameList,bidList,Bsubscriber);
                 }
             }
@@ -159,14 +161,14 @@
                     {
                         if(nameList[q]==name)
                         {
-                            //subscriber[q]=Number(inip.items[0].statistics.subscriberCount);
-                            subscriber[q]=inip.data.card.fans;
+                            subscriber[q]=inip.data.follower;
                         }
                     }
                     Bsort(nameList,subscriber); 
                 }
             }
-            var url="https://api.kaaass.net/biliapi/user/space?id="+id;
+            var url='https://api.bilibili.com/x/relation/stat?jsonp=jsonp&vmid=511613155';
+            //var url="https://api.bilibili.com/x/relation/stat?vmid="+id;
             xhttp.open("GET", url, true);
             xhttp.send();
         }
