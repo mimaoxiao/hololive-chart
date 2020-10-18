@@ -6,14 +6,14 @@
     <!-- 引入 echarts.js -->
     <script src="echart.js"></script>
     <script type="text/javascript">
-        var number=34;
+        var number=38;
         function BChart(namelist,datalist){
             var BChart = echarts.init(document.getElementById('B'));
             // 指定图表的配置项和数据
             var option =
             {
                 title:{
-                    text:'                                                      hololive B站粉丝数一览 2020.4.19Ver',
+                    text:'                                                      hololive B站粉丝数一览 2020.9.27Ver',
                     show:true,
                     top:15,
                     textStyle:{
@@ -119,7 +119,7 @@
             var BnameList=[];
             var bidList=[];
             //var Bsubscriber=[];
-            var Bsubscriber=[283440,166442,223652,140657,132743,454247,597745,690314,237552,325102,244940,158121,275867,197645,227654,63771,273617,126404,203764,181930,307727,269758,1013300,76575,134410,145479,234595,169704,154553,109719,109126,85114,86653,69108];
+            var Bsubscriber=[345734,209270,292746,191396,170421,601801,723881,856214,287790,414776,299991,206188,320947,253923,316234,96000,372831,173610,272156,260025,393156,356082,1183905,101856,188435,212406,327484,239874,297967,169612,163350,137921,145896,115287,199780,121760,207569,170638];
             for(var i=0;i<number;i++)
             {
                 Bsubscriber.push(0);
@@ -199,6 +199,6 @@
 </script>
 </head>
 <body>
-    <div id="B" style="width:1200px;height:693px;"></div>
+    <div id="B" style="width:1200px;height:800px;"></div>
 </body>
 </html>
